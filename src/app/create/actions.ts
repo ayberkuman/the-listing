@@ -3,6 +3,7 @@
 import { db } from "@/db";
 import { Entry, entry } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 export async function createEntryAction(
   entryData: Omit<Entry, "id" | "userId">
@@ -13,4 +14,6 @@ export async function createEntryAction(
   }
 
   await db.insert(entry).values({ ...entryData, userId: session.user.id });
+
+  revalidatePath("/");
 }

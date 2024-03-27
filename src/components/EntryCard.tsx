@@ -29,7 +29,7 @@ export default function EntryCard({
           className={buttonVariants({
             variant: "default",
           })}
-          href={`/room/${id}`}
+          href={`/entries/${id}`}
         >
           View
         </Link>

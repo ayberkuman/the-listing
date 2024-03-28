@@ -1,9 +1,9 @@
 "use client";
-import { EnterIcon, ExitIcon } from "@radix-ui/react-icons";
+import { EnterIcon, ExitIcon, ListBulletIcon } from "@radix-ui/react-icons";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { ModeToggle } from "./mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function Header() {
   const session = useSession();
@@ -20,6 +21,16 @@ export default function Header() {
         <Link href="/">
           <div>logo</div>
         </Link>
+        <nav>
+          <Link
+            href="/browse"
+            className={buttonVariants({
+              variant: "outline",
+            })}
+          >
+            Browse
+          </Link>
+        </nav>
         <div className="space-x-4 flex items-center gap-4">
           {session.data ? (
             <AccountDropDown />
@@ -53,6 +64,12 @@ function AccountDropDown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
+        <DropdownMenuItem>
+          <Link href="/your-entries" className="flex items-center gap-2">
+            <ListBulletIcon />
+            Your Entries
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() =>
             signOut({

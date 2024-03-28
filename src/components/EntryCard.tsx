@@ -1,4 +1,6 @@
 import { Entry } from "@/db/schema";
+import Link from "next/link";
+import { buttonVariants } from "./ui/button";
 import {
   Card,
   CardContent,
@@ -7,8 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import { Button, buttonVariants } from "./ui/button";
-import Link from "next/link";
 
 export default function EntryCard({
   id,

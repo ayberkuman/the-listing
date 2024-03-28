@@ -1,10 +1,17 @@
 import EntryCard from "@/components/EntryCard";
+import SearchBar from "@/components/SearchBar";
 import { buttonVariants } from "@/components/ui/button";
 import { getEntries } from "@/fetcher-functions/getEntries";
 import Link from "next/link";
 
-export default async function Home() {
-  const entries = await getEntries();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: {
+    search: string;
+  };
+}) {
+  const entries = await getEntries(searchParams.search);
   return (
     <main className="min-h-screen p-16">
       <div className="flex justify-between items-center mb-8">
@@ -18,6 +25,7 @@ export default async function Home() {
           List an entry
         </Link>
       </div>
+      <SearchBar />
       <div className="grid grid-cols-3 gap-4">
         {entries.map((entry) => (
           <EntryCard key={entry.id} {...entry} />

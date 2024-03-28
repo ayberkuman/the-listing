@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 
 export default function Header() {
+  const session = useSession();
   return (
     <header className="container mx-auto py-4 dark:bg-gray-900 bg-gray-50 rounded-b-lg">
       <div className="flex justify-between items-center">
@@ -20,7 +21,13 @@ export default function Header() {
           <div>logo</div>
         </Link>
         <div className="space-x-4 flex items-center gap-4">
-          <AccountDropDown />
+          {session.data ? (
+            <AccountDropDown />
+          ) : (
+            <Button onClick={() => signIn("google")}>
+              <EnterIcon className="mr-2" /> Sign in
+            </Button>
+          )}
           <ModeToggle />
         </div>
       </div>
@@ -46,15 +53,15 @@ function AccountDropDown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {session.data ? (
-          <DropdownMenuItem onClick={() => signOut()}>
-            <ExitIcon className="mr-2" /> Sign Out
-          </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={() => signIn("google")}>
-            <EnterIcon className="mr-2" /> Sign in
-          </DropdownMenuItem>
-        )}
+        <DropdownMenuItem
+          onClick={() =>
+            signOut({
+              callbackUrl: "/",
+            })
+          }
+        >
+          <ExitIcon className="mr-2" /> Sign Out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

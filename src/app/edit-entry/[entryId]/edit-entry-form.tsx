@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import { CalendarIcon, GearIcon } from "@radix-ui/react-icons";
 import {
   Popover,
   PopoverContent,
@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import { editEntryAction } from "./actions";
 import { Entry } from "@/db/schema";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -36,6 +37,8 @@ const formSchema = z.object({
 });
 
 export default function EditEntryForm({ entry }: { entry: Entry }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
   const { toast } = useToast();
 
@@ -49,16 +52,27 @@ export default function EditEntryForm({ entry }: { entry: Entry }) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await editEntryAction({
-      ...values,
-      id: entry.id,
-      date: values.date ? format(values.date, "yyyy-MM-dd") : null,
-    });
-    toast({
-      title: "Updated!",
-      description: "Your entry has been edited successfully",
-    });
-    router.push("/your-entries");
+    setIsSubmitting(true);
+    try {
+      await editEntryAction({
+        ...values,
+        id: entry.id,
+        date: values.date ? format(values.date, "yyyy-MM-dd") : null,
+      });
+      toast({
+        title: "Updated!",
+        description: "Your entry has been edited successfully",
+      });
+      router.push("/your-entries");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "An error occurred",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -67,6 +81,7 @@ export default function EditEntryForm({ entry }: { entry: Entry }) {
         <FormField
           control={form.control}
           name="name"
+          disabled={isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
@@ -80,6 +95,7 @@ export default function EditEntryForm({ entry }: { entry: Entry }) {
         <FormField
           control={form.control}
           name="description"
+          disabled={isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Description</FormLabel>
@@ -93,6 +109,7 @@ export default function EditEntryForm({ entry }: { entry: Entry }) {
         <FormField
           control={form.control}
           name="date"
+          disabled={isSubmitting}
           render={({ field }) => (
             <FormItem className="flex flex-col col-span-full">
               <FormLabel>Date of the event</FormLabel>
@@ -133,7 +150,10 @@ export default function EditEntryForm({ entry }: { entry: Entry }) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isSubmitting} type="submit">
+          {isSubmitting && <GearIcon className="animate-spin mr-2" />}
+          Submit
+        </Button>
       </form>
     </Form>
   );

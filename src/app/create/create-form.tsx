@@ -1,32 +1,32 @@
 "use client";
 
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { createEntryAction } from "./actions";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "@radix-ui/react-icons";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CalendarIcon, GearIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { createEntryAction } from "./actions";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -35,8 +35,11 @@ const formSchema = z.object({
 });
 
 export default function CreateForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
   const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,15 +50,26 @@ export default function CreateForm() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createEntryAction({
-      ...values,
-      date: values.date ? format(values.date, "yyyy-MM-dd") : null,
-    });
-    toast({
-      title: "Created!",
-      description: "Your entry has been created successfully",
-    });
-    router.push("/browse");
+    try {
+      setIsSubmitting(true);
+      await createEntryAction({
+        ...values,
+        date: values.date ? format(values.date, "yyyy-MM-dd") : null,
+      });
+      toast({
+        title: "Created!",
+        description: "Your entry has been created successfully",
+      });
+      router.push("/browse");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error ? error.message : "An error occurred",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -64,6 +78,7 @@ export default function CreateForm() {
         <FormField
           control={form.control}
           name="name"
+          disabled={isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
@@ -77,6 +92,7 @@ export default function CreateForm() {
         <FormField
           control={form.control}
           name="description"
+          disabled={isSubmitting}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Description</FormLabel>
@@ -90,6 +106,7 @@ export default function CreateForm() {
         <FormField
           control={form.control}
           name="date"
+          disabled={isSubmitting}
           render={({ field }) => (
             <FormItem className="flex flex-col col-span-full">
               <FormLabel>Date of the event</FormLabel>
@@ -130,7 +147,10 @@ export default function CreateForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={isSubmitting} type="submit">
+          {isSubmitting && <GearIcon className="animate-spin mr-2" />}
+          Submit
+        </Button>
       </form>
     </Form>
   );

@@ -3,6 +3,7 @@
 import { deleteEntry, getEntry } from "@/db-access/entries";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function deleteEntryAction(entryId: string) {
   const session = await getSession();
@@ -19,4 +20,5 @@ export async function deleteEntryAction(entryId: string) {
   await deleteEntry(entryId);
 
   revalidatePath("/your-entries");
+  redirect("/your-entries");
 }

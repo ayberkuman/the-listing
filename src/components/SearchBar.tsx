@@ -32,9 +32,9 @@ export default function SearchBar() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.search) {
-      router.push(`/?search=${values.search}`);
+      router.push(`/browse?search=${values.search}`);
     } else {
-      router.push("/");
+      router.push("/browse");
     }
   }
 
@@ -56,7 +56,7 @@ export default function SearchBar() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="col-span-1">
+        <Button type="submit" variant="outline">
           <MagnifyingGlassIcon className="mr-2" />
           Search
         </Button>
@@ -65,7 +65,7 @@ export default function SearchBar() {
             variant="secondary"
             onClick={() => {
               form.setValue("search", "");
-              router.push("/");
+              router.push("/browse");
             }}
           >
             <EraserIcon className="mr-2" />

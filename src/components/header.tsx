@@ -17,28 +17,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { deleteEntryAction } from "@/app/your-entries/actions";
 
+import { deleteAccountAction } from "@/app/actions";
+import { useState } from "react";
 import {
-  AlertDialogHeader,
-  AlertDialogFooter,
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogTitle,
-  AlertDialogTrigger,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
 } from "./ui/alert-dialog";
-import { useState } from "react";
-import { deleteUserAccount } from "@/db-access/users";
-import { redirect } from "next/navigation";
-import { deleteAccountAction } from "@/app/actions";
 
 export default function Header() {
   const session = useSession();
+
   return (
-    <header className="mx-auto py-4 dark:bg-gray-900 bg-gray-50 rounded-b-lg">
+    <header className="mx-auto py-4 dark:bg-gray-900 bg-gray-50 rounded-b-lg z-10 relative">
       <div className="flex justify-between items-center container">
         <Link href="/">
           <div>logo</div>

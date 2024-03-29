@@ -28,7 +28,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle
+  AlertDialogTitle,
 } from "./ui/alert-dialog";
 
 export default function Header() {
@@ -36,11 +36,11 @@ export default function Header() {
 
   return (
     <header className="mx-auto py-4 dark:bg-gray-900 bg-gray-50 rounded-b-lg z-10 relative">
-      <div className="flex justify-between items-center container">
+      <div className="grid grid-cols-3 place-items-center container">
         <Link href="/">
           <div>logo</div>
         </Link>
-        <nav>
+        <nav className="flex items-center">
           <Link
             href="/browse"
             className={buttonVariants({
@@ -49,10 +49,20 @@ export default function Header() {
           >
             Browse
           </Link>
+          <Link
+            href="/your-entries"
+            className={buttonVariants({
+              variant: "ghost",
+            })}
+          >
+            Your Entries
+          </Link>
         </nav>
         <div className="space-x-4 flex items-center gap-4">
           {session.data ? (
-            <AccountDropDown />
+            <div className="hidden sm:inline-flex">
+              <AccountDropDown />
+            </div>
           ) : (
             <Button
               onClick={() =>

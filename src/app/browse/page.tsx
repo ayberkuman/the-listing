@@ -17,9 +17,9 @@ export default async function Home({
   const entries = await getEntries(searchParams.search);
 
   return (
-    <main className="min-h-screen p-16">
+    <main className="min-h-screen p-4 sm:p-8 md:p-16">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl">The Listing</h1>
+        <h1 className="sm:text-4xl text-xl">The Listing</h1>
         <Link
           href="/create"
           className={buttonVariants({
@@ -30,7 +30,7 @@ export default async function Home({
         </Link>
       </div>
       <SearchBar />
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4">
         {entries.map((entry) => (
           <EntryCard key={entry.id} {...entry} />
         ))}

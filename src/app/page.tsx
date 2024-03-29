@@ -20,12 +20,12 @@ export default function Home() {
         <div className="mx-auto max-w-2xl py-32 sm:py-48">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-6xl">
-              Data to enrich your online business
+              List anything for free
             </h1>
             <p className="mt-6 text-lg leading-8 text-foreground">
-              Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-              lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-              fugiat aliqua.
+              A platform for you to list anything for free, from events to jobs,
+              and even services. List your items now and let others know what
+              you have to offer.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link

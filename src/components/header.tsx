@@ -35,7 +35,13 @@ export default function Header() {
           {session.data ? (
             <AccountDropDown />
           ) : (
-            <Button onClick={() => signIn("google")}>
+            <Button
+              onClick={() =>
+                signIn("google", {
+                  callbackUrl: "/browse",
+                })
+              }
+            >
               <EnterIcon className="mr-2" /> Sign in
             </Button>
           )}

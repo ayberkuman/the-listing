@@ -1,7 +1,7 @@
 import EntryCard from "@/components/EntryCard";
 import SearchBar from "@/components/SearchBar";
 import { buttonVariants } from "@/components/ui/button";
-import { getEntries } from "@/fetcher-functions/entries";
+import { getEntries } from "@/db-access/entries";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
 

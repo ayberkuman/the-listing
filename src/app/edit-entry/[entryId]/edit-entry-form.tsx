@@ -15,7 +15,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { createEntryAction } from "./actions";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import {
@@ -26,6 +25,8 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { editEntryAction } from "./actions";
+import { Entry } from "@/db/schema";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -33,23 +34,24 @@ const formSchema = z.object({
   date: z.date().optional(),
 });
 
-export default function CreateForm() {
+export default function EditEntryForm({ entry }: { entry: Entry }) {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      date: new Date(),
+      name: entry.name,
+      description: entry.description,
+      date: entry.date ? new Date(entry.date) : undefined,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createEntryAction({
+    await editEntryAction({
       ...values,
+      id: entry.id,
       date: values.date ? format(values.date, "yyyy-MM-dd") : null,
     });
-    router.push("/browse");
+    router.push("/your-entries");
   }
 
   return (

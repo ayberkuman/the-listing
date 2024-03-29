@@ -1,4 +1,4 @@
-import { getEntry } from "@/fetcher-functions/entries";
+import { getEntry } from "@/db-access/entries";
 
 export default async function EntryPage({
   params,

@@ -20,7 +20,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Entry } from "@/db/schema";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { deleteEntryAction } from "./actions";
 
@@ -34,7 +34,18 @@ export default function UserEntryCard({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{name}</CardTitle>
+        <CardTitle className="flex justify-between items-center">
+          {name}
+          <Link
+            href={`/edit-entry/${id}`}
+            className={buttonVariants({
+              variant: "outline",
+              size: "icon",
+            })}
+          >
+            <Pencil1Icon />
+          </Link>
+        </CardTitle>
         <CardDescription>{date}</CardDescription>
       </CardHeader>
       <CardContent>{description}</CardContent>

@@ -1,10 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { entry } from "@/db/schema";
-import { getEntry } from "@/fetcher-functions/entries";
+import { deleteEntry, getEntry } from "@/db-access/entries";
 import { getSession } from "@/lib/auth";
-import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function deleteEntryAction(entryId: string) {
@@ -19,7 +16,7 @@ export async function deleteEntryAction(entryId: string) {
     throw new Error("You do not have permission to delete this entry");
   }
 
-  await db.delete(entry).where(eq(entry.id, entryId));
+  await deleteEntry(entryId);
 
   revalidatePath("/your-entries");
 }

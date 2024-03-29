@@ -1,6 +1,6 @@
 import SearchBar from "@/components/SearchBar";
 import { buttonVariants } from "@/components/ui/button";
-import { getUserEntries } from "@/fetcher-functions/entries";
+import { getUserEntries } from "@/db-access/entries";
 import Link from "next/link";
 import UserEntryCard from "./UserEntryCard";
 import { unstable_noStore } from "next/cache";

@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@/db";
-import { Entry, entry } from "@/db/schema";
+import { createEntry } from "@/db-access/entries";
+import { Entry } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
@@ -13,7 +13,7 @@ export async function createEntryAction(
     throw new Error("You must be logged in to create an entry");
   }
 
-  await db.insert(entry).values({ ...entryData, userId: session.user.id });
+  await createEntry(entryData, session.user.id);
 
   revalidatePath("/");
 }

@@ -27,6 +27,7 @@ import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { editEntryAction } from "./actions";
 import { Entry } from "@/db/schema";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -36,6 +37,8 @@ const formSchema = z.object({
 
 export default function EditEntryForm({ entry }: { entry: Entry }) {
   const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,6 +53,10 @@ export default function EditEntryForm({ entry }: { entry: Entry }) {
       ...values,
       id: entry.id,
       date: values.date ? format(values.date, "yyyy-MM-dd") : null,
+    });
+    toast({
+      title: "Updated!",
+      description: "Your entry has been edited successfully",
     });
     router.push("/your-entries");
   }

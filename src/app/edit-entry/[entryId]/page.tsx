@@ -19,7 +19,7 @@ export default async function EditEntryPage({
   }
 
   return (
-    <div className="container mx-auto pt-12">
+    <div className=" mx-auto pt-12">
       <div>
         <EditEntryForm entry={entry} />
       </div>

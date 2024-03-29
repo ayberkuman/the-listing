@@ -26,6 +26,7 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -35,6 +36,7 @@ const formSchema = z.object({
 
 export default function CreateForm() {
   const router = useRouter();
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,6 +50,10 @@ export default function CreateForm() {
     await createEntryAction({
       ...values,
       date: values.date ? format(values.date, "yyyy-MM-dd") : null,
+    });
+    toast({
+      title: "Created!",
+      description: "Your entry has been created successfully",
     });
     router.push("/browse");
   }

@@ -35,6 +35,9 @@ export default async function Home({
           <EntryCard key={entry.id} {...entry} />
         ))}
       </div>
+      {entries.length === 0 && (
+        <p className="text-center text-lg mt-8">No entries found</p>
+      )}
     </main>
   );
 }

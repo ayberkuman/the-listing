@@ -5,8 +5,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export const metadata: Metadata = {
   title: "The Listing",
@@ -20,15 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={cn(inter.className, " antialiased grainy")}>
         <Providers>
           <Toaster />
           <NextTopLoader />
           <Header />
-          <div className="container">
-
-          {children}
-          </div>
+          <div className="container">{children}</div>
         </Providers>
       </body>
     </html>

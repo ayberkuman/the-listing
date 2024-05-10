@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(inter.className, " antialiased grainy")}>
+      <body className={cn(inter.className, " antialiased dark:bg-none grainy")}>
         <Providers>
           <Toaster />
           <NextTopLoader />

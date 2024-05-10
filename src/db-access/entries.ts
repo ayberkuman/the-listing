@@ -1,7 +1,7 @@
 import { Entry, entry } from "./../db/schema";
 import { db } from "@/db";
 import { getSession } from "@/lib/auth";
-import { eq, like } from "drizzle-orm";
+import { and, eq, like } from "drizzle-orm";
 
 export async function getEntries(search: string | undefined) {
   const where = search ? like(entry.name, `%${search}%`) : undefined;
@@ -10,15 +10,19 @@ export async function getEntries(search: string | undefined) {
     where,
   });
 }
-export async function getUserEntries() {
+export async function getUserEntries(search: string | undefined) {
   const session = await getSession();
 
   if (!session) {
     throw new Error("User not logged in");
   }
 
+  const where = search
+    ? and(eq(entry.userId, session.user.id), like(entry.name, `%${search}%`))
+    : eq(entry.userId, session.user.id);
+
   return await db.query.entry.findMany({
-    where: eq(entry.userId, session.user.id),
+    where,
   });
 }
 

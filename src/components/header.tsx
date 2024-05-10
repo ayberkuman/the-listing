@@ -35,7 +35,7 @@ export default function Header() {
   const session = useSession();
 
   return (
-    <header className="mx-auto py-4 dark:bg-gray-900 sticky bg-transparent shadow-sm backdrop-blur-xl rounded-b-lg z-10 top-0">
+    <header className="mx-auto py-4 dark:bg-transparent sticky bg-transparent shadow-md backdrop-blur-xl border-b-border border-b-2 z-10 top-0">
       <div className="grid grid-cols-3 place-items-center container">
         <Link href="/">
           <div>logo</div>
@@ -74,7 +74,7 @@ export default function Header() {
               <EnterIcon className="mr-2" /> Sign in
             </Button>
           )}
-         {/*  <ModeToggle /> */}
+          <ModeToggle />
         </div>
       </div>
     </header>

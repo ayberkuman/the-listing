@@ -19,7 +19,7 @@ const formSchema = z.object({
   search: z.string().min(0).max(50),
 });
 
-export default function SearchBar() {
+export default function SearchBar({ isBrowsePage }: { isBrowsePage: boolean }) {
   const router = useRouter();
   const query = useSearchParams();
 
@@ -32,9 +32,11 @@ export default function SearchBar() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.search) {
-      router.push(`/browse?search=${values.search}`);
+      router.push(
+        `/${isBrowsePage ? "browse" : "your-entries"}?search=${values.search}`
+      );
     } else {
-      router.push("/browse");
+      router.push(`/${isBrowsePage ? "browse" : "your-entries"}`);
     }
   }
 
@@ -65,7 +67,7 @@ export default function SearchBar() {
             variant="secondary"
             onClick={() => {
               form.setValue("search", "");
-              router.push("/browse");
+              router.push(`/${isBrowsePage ? "browse" : "your-entries"}`);
             }}
           >
             <EraserIcon className="mr-2" />

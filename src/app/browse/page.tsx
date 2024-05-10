@@ -1,10 +1,12 @@
 import EntryCard from "@/components/EntryCard";
 import SearchBar from "@/components/SearchBar";
 import { buttonVariants } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
 import { getEntries } from "@/db-access/entries";
 import { Ghost } from "lucide-react";
 import { unstable_noStore } from "next/cache";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default async function Home({
   searchParams,
@@ -47,7 +49,11 @@ export default async function Home({
             </Link>
           </div>
         ) : (
-          entries.map((entry) => <EntryCard key={entry.id} {...entry} />)
+          <Suspense fallback={<Loader />}>
+            {entries.map((entry) => (
+              <EntryCard key={entry.id} {...entry} />
+            ))}
+          </Suspense>
         )}
       </div>
       {entries.length === 0 && (

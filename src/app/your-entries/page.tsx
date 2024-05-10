@@ -4,7 +4,8 @@ import { getUserEntries } from "@/db-access/entries";
 import Link from "next/link";
 import UserEntryCard from "./UserEntryCard";
 import { unstable_noStore } from "next/cache";
-import { Ghost } from "lucide-react";
+import { Ghost, Loader } from "lucide-react";
+import { Suspense } from "react";
 
 export default async function YourRoomsPage({
   searchParams,
@@ -47,7 +48,11 @@ export default async function YourRoomsPage({
             </Link>
           </div>
         ) : (
-          entries.map((entry) => <UserEntryCard key={entry.id} {...entry} />)
+          <Suspense fallback={<Loader />}>
+            {entries.map((entry) => (
+              <UserEntryCard key={entry.id} {...entry} />
+            ))}
+          </Suspense>
         )}
       </div>
     </main>

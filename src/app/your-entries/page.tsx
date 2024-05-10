@@ -1,10 +1,10 @@
 import SearchBar from "@/components/SearchBar";
+import YourEntries from "@/components/YourEntries";
 import { buttonVariants } from "@/components/ui/button";
+import Loader from "@/components/ui/loader";
 import { getUserEntries } from "@/db-access/entries";
-import Link from "next/link";
-import UserEntryCard from "./UserEntryCard";
 import { unstable_noStore } from "next/cache";
-import { Ghost, Loader } from "lucide-react";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function YourRoomsPage({
@@ -32,29 +32,9 @@ export default async function YourRoomsPage({
         </Link>
       </div>
       <SearchBar isBrowsePage={false} />
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4">
-        {entries.length === 0 ? (
-          <div className="mt-16 mx-auto col-span-full flex flex-col items-center gap-4">
-            <Ghost />
-            <h3 className="font-semibold text-xl">
-              Pretty empty around here...
-            </h3>
-            <p>Let&apos;s create your first event. </p>
-            <Link
-              href="/create"
-              className={buttonVariants({ variant: "default" })}
-            >
-              Create an event
-            </Link>
-          </div>
-        ) : (
-          <Suspense fallback={<Loader />}>
-            {entries.map((entry) => (
-              <UserEntryCard key={entry.id} {...entry} />
-            ))}
-          </Suspense>
-        )}
-      </div>
+      <Suspense fallback={<Loader />}>
+        <YourEntries searchParams={searchParams} />
+      </Suspense>
     </main>
   );
 }

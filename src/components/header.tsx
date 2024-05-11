@@ -7,7 +7,7 @@ import {
 } from "@radix-ui/react-icons";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "./ModeToggle";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button, buttonVariants } from "./ui/button";
 import {

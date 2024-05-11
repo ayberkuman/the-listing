@@ -1,4 +1,3 @@
-import Header from "@/components/header";
 import Providers from "@/providers";
 import NextTopLoader from "nextjs-toploader";
 import type { Metadata } from "next";
@@ -6,6 +5,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
+import Header from "@/components/header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           <NextTopLoader />
           <Header />
           <div className="container">{children}</div>
+          <Footer />
         </Providers>
       </body>
     </html>

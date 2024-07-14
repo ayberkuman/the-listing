@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { cn } from "@/lib/utils";
+import { cn, UploadButton } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon, GearIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
@@ -32,6 +32,7 @@ const formSchema = z.object({
   name: z.string().min(1).max(50),
   description: z.string().min(1).max(250),
   date: z.date().optional(),
+  imageKey: z.string(),
 });
 
 export default function CreateForm() {
@@ -147,6 +148,28 @@ export default function CreateForm() {
             </FormItem>
           )}
         />
+       {/*  <FormField
+          control={form.control}
+          name="imageKey"
+          disabled={isSubmitting}
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel>Date of the event</FormLabel>
+              <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  // Do something with the response
+                  console.log("Files: ", res);
+                  alert("Upload Completed");
+                }}
+                onUploadError={(error: Error) => {
+                  // Do something with the error.
+                  alert(`ERROR! ${error.message}`);
+                }}
+              />
+            </FormItem>
+          )}
+        /> */}
         <Button disabled={isSubmitting} type="submit">
           {isSubmitting && <GearIcon className="animate-spin mr-2" />}
           Submit

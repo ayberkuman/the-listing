@@ -72,6 +72,7 @@ export const entry = pgTable("entry", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   date: text("date"),
+  imageKey: text("imageKey").notNull(),
 });
 
 export type Entry = typeof entry.$inferSelect;
